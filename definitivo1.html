@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Reserva IFRN</title>
+  <link rel="stylesheet" href="definitivo1.css">
+</head>
+<body>
+
+  <header>
+    <img src="Ca.png" alt="Logo Caracol" class="logo" />
+    <h1>Lista de Reserva de Refeição - IFRN</h1>
+  </header>
+
+  <nav>
+    <button onclick="mostrar('inicio')">Início</button>
+    <button onclick="mostrar('cadastro')">Cadastro</button>
+    <button onclick="mostrar('resultados')">Resultados</button>
+    <button onclick="mostrar('admin')">Admin</button>
+    <button onclick="mostrar('sobre')">Sobre</button>
+  </nav>
+
+  <section id="inicio" class="active">
+    <div class="inicial">
+    <h2 style="color: rgb(89, 120, 94); text-align: center;">Bem-vindo ao Sistema de Reserva do IFMO!</h2><br>
+    <p style="color: rgb(89, 120, 94); text-align: center;  font-weight: bold;">Cadastre-se na lista de reserva</p> <br>
+    <p style="color: rgb(89, 120, 94); text-align: center;">Para se cadastrar na lista de reserva,abra a aba <strong>Cadastro</strong> e preencha com seu <strong>nome completo</strong>,
+    sua <strong>matrícula</strong> e marcar se você possui <strong>prioridade</strong> — isso vale para quem já participa do Programa de Alimentação Estudantil do setor do Serviço Social.</p>
+    <p style="color: rgb(89, 120, 94); text-align: center;">
+    Depois de se cadastrar, você pode acompanhar sua posição na lista acessando a aba <strong>"Resultados"</strong>. 
+    </p>
+    </div>
+  </section>
+
+  <section id="cadastro">
+    <main class="container">
+      <h1 style="color: rgb(89, 120, 94); text-align: center;">Lista de Reserva</h1>
+      <form id="formCadastro">
+        <div class="input-box">
+          <input id="nome" type="text" placeholder="Nome" required />
+        </div>
+        <div class="input-box">
+          <input id="matricula" type="text" placeholder="Matrícula" required />
+        </div>
+        <div class="prioridade">
+          <label for="prioridade">Prioridade:</label>
+          <select id="prioridade">
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+        </div>
+        <div class="botoes">
+          <button type="submit" class="cadastrar">Cadastrar</button>
+          <button type="reset" class="cancelar">Cancelar</button>
+        </div>
+      </form>
+    </main>
+  </section>
+
+  <section id="resultados">
+    <h2 style="color: rgb(89, 120, 94); text-align: center;">Lista de Inscritos</h2>
+    <div class="container">
+      <table id="tabelaResultados">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Prioridade</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Tela login admin -->
+  <section id="adminLogin" style="display:none;">
+    <div class="container">
+      <h2 style="color: rgb(89, 120, 94); text-align: center;">Login do Administrador</h2>
+      <form id="formLogin">
+        <div class="input-box">
+          <input id="emailAdmin" type="email" placeholder="Email" required />
+        </div>
+        <div class="input-box">
+          <input id="senhaAdmin" type="password" placeholder="Senha" required />
+        </div>
+        <div class="botoes" style="justify-content:center;">
+          <button type="submit" class="cadastrar">Entrar</button>
+        </div>
+        <p id="erroLogin"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="admin" style="display:none;">
+    <h2 style="color: rgb(89, 120, 94); text-align: center;">Painel do Administrador</h2>
+    <div class="container">
+      <label for="refeicoes" text-align="center">Quantidade de refeições disponíveis:</label>
+      <input type="number" id="refeicoes" min="1" />
+      <button onclick="definirRefeicoes()" type="confirm" class="confirmar">Confirmar</button>
+      <button onclick="gerarRelatorio()" type="generate" class="gerar">Gerar Relatório</button>
+      <button onclick="resetarLista()" type="reset" class="resetar">Resetar Lista</button>
+      <button onclick="exportarPDF()" type="export" class="exportar">Exportar PDF</button>
+
+
+      <h3 style="margin-top:20px;">Lista de Reservas</h3>
+      <table id="tabelaAdminResultados" style="margin-top:10px;">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Prioridade</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <button id="logoutBtn">Sair</button>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <h2 style="color: rgb(89, 120, 94); text-align: center;">Sobre</h2>
+    <div class="container">
+<p class="sobre-texto">Este projeto foi desenvolvido por alunas do curso técnico em Informática do IFRN – Campus Mossoró. Inicialmente, tratava-se de uma interface criada para a disciplina de Programação Estruturada Orientada a Objetos (PEOO), sob a orientação do professor Clayton Maciel.<br>
+O objetivo do projeto é aprimorar a organização da lista de reserva de refeições do campus, oferecendo mais praticidade, clareza e eficiência no controle diário. Para isso, a interface inicial foi aprimorada, integrando um banco de dados e transformando-a em uma aplicação web funcional.<br>
+O desenvolvimento contou com a participação das alunas Aline Evellin, Gisele Maria, Lara Stephanie, Maria Eduarda, Rafaelly Dantas e Sabrina Karine, sob a orientação dos professores Abrahão Christophe e Carla Katarina.</p>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+    import { getDatabase, ref, push, get, child, remove } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    let primeiraVezAbrindo = true;
+    const firebaseConfig = {
+      apiKey: "AIzaSyD79neBNy5iZPK08WukaD3El0kQLFPvwi4",
+      authDomain: "solicitacao-de-refeicao.firebaseapp.com",
+      databaseURL: "https://solicitacao-de-refeicao-default-rtdb.firebaseio.com",
+      projectId: "solicitacao-de-refeicao",
+      storageBucket: "solicitacao-de-refeicao.appspot.com",
+      messagingSenderId: "864154320092",
+      appId: "1:864154320092:web:1655be6ab2f2089a280819",
+      measurementId: "G-TTBSLPLPR7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    const adminEmail = "alimentacaoifmo@gmail.com";
+    window.refeicoesDisponiveis = 0;
+
+    window.mostrar = function (tela) {
+      if (tela === 'admin') {
+        const user = auth.currentUser;
+        if (!user) {
+          tela = 'adminLogin';
+        } else if (user.email !== adminEmail) {
+          alert("Usuário não autorizado.");
+          signOut(auth);
+          tela = 'inicio';
+        }
+      }
+      document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(tela).style.display = 'block';
+
+      if (tela === 'resultados') atualizarTabelaPublica();
+      if (tela === 'admin') atualizarTabelaAdmin();
+    };
+
+    function ordenarReservas(reservas) {
+      reservas.sort((a, b) => {
+        if (a.prioridade === b.prioridade) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        }
+        return a.prioridade === 'sim' ? -1 : 1;
+      });
+    }
+
+    function atualizarTabelaPublica() {
+      const tbody = document.querySelector('#tabelaResultados tbody');
+      tbody.innerHTML = '';
+
+      get(child(ref(database), 'reservas')).then(snapshot => {
+        if (snapshot.exists()) {
+          const reservas = Object.values(snapshot.val());
+          ordenarReservas(reservas);
+          const limite = window.refeicoesDisponiveis > 0 ? window.refeicoesDisponiveis : reservas.length;
+          const selecionados = reservas.slice(0, limite);
+
+          selecionados.forEach(item => {
+            const row = `
+              <tr>
+                <td>${item.nome}</td>
+                <td>${item.matricula}</td>
+                <td>${item.prioridade}</td>
+              </tr>`;
+            tbody.innerHTML += row;
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="3">Nenhuma reserva encontrada</td></tr>';
+        }
+      });
+    }
+
+    function atualizarTabelaAdmin() {
+      const tbody = document.querySelector('#tabelaAdminResultados tbody');
+      tbody.innerHTML = '';
+
+      get(child(ref(database), 'reservas')).then(snapshot => {
+        if (!snapshot.exists()) {
+          tbody.innerHTML = '<tr><td colspan="3">Nenhuma reserva encontrada</td></tr>';
+          return;
+        }
+
+        const reservas = Object.values(snapshot.val());
+        ordenarReservas(reservas);
+        const limite = window.refeicoesDisponiveis > 0 ? window.refeicoesDisponiveis : reservas.length;
+        const selecionados = reservas.slice(0, limite);
+
+        selecionados.forEach(item => {
+          const row = `
+            <tr>
+              <td>${item.nome}</td>
+              <td>${item.matricula}</td>
+              <td>${item.prioridade}</td>
+            </tr>`;
+          tbody.innerHTML += row;
+        });
+      });
+    }
+
+    window.definirRefeicoes = function () {
+      const qtd = parseInt(document.getElementById("refeicoes").value);
+      if (!isNaN(qtd) && qtd > 0) {
+        window.refeicoesDisponiveis = qtd;
+        alert("Quantidade definida: " + qtd);
+        mostrar('admin');
+      } else {
+        alert("Digite uma quantidade válida.");
+      }
+    };
+
+
+    window.gerarRelatorio = function () {
+      get(child(ref(database), 'reservas')).then(snapshot => {
+        if (!snapshot.exists()) {
+          alert("Nenhuma reserva cadastrada.");
+          return;
+        }
+
+        const reservas = Object.values(snapshot.val());
+        ordenarReservas(reservas);
+        const selecionados = window.refeicoesDisponiveis > 0 ? reservas.slice(0, window.refeicoesDisponiveis) : [];
+
+        let relatorio = ` RELATÓRIO DO DIA\n\n`;
+        relatorio += `Total de inscritos: ${reservas.length}\n`;
+        relatorio += `Refeições disponíveis: ${window.refeicoesDisponiveis}\n\n`;
+        relatorio += `🍽️ Alunos que vão almoçar:\n`;
+
+        if (selecionados.length === 0) {
+          relatorio += `Nenhum aluno selecionado.`;
+        } else {
+          selecionados.forEach((item, i) => {
+            relatorio += `${i + 1}. ${item.nome} (${item.matricula}) - [${item.prioridade}]\n`;
+          });
+        }
+
+        const novaJanela = window.open("", "_blank");
+novaJanela.document.write(`
+  <html lang="pt-BR">
+    <head>
+      <meta charset="UTF-8">
+      <title>Relatório de Reservas</title>
+      <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #f4f7f4;
+          margin: 0;
+          padding: 30px;
+          color: #2d4739;
+        }
+
+        h1 {
+          color: #2d4739;
+          text-align: center;
+          margin-bottom: 30px;
+        }
+
+        .container {
+          background-color: #ffffff;
+          border-radius: 12px;
+          padding: 20px;
+          max-width: 800px;
+          margin: 0 auto;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          white-space: pre-wrap;
+        }
+
+        .emoji {
+          font-size: 24px;
+          margin-right: 10px;
+        }
+
+        .assinatura {
+          text-align: center;
+          margin-top: 40px;
+          color: #555;
+          font-size: 0.9em;
+        }
+      </style>
+    </head>
+    <body>
+      <h1><span class="emoji"></span>Relatório do Dia</h1>
+      <div class="container">
+        ${relatorio}
+      </div>
+      <div class="assinatura">
+        Sistema de Reservas - IFRN IFMO
+      </div>
+    </body>
+  </html>
+`);
+novaJanela.document.close();
+
+      });
+    };
+
+    document.getElementById('formCadastro').addEventListener('submit', event => {
+      event.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const matricula = document.getElementById('matricula').value.trim();
+      const prioridade = document.getElementById('prioridade').value;
+
+      if (!nome || !matricula) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      push(ref(database, 'reservas/'), {
+        nome, matricula, prioridade,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        alert("Cadastro enviado com sucesso!");
+        event.target.reset();
+        mostrar('resultados');
+      }).catch((error) => {
+        console.error("Erro ao enviar:", error);
+        alert("Erro ao enviar cadastro.");
+      });
+    });
+
+    document.getElementById('formLogin').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('emailAdmin').value.trim();
+      const senha = document.getElementById('senhaAdmin').value;
+      document.getElementById('erroLogin').textContent = "";
+
+      signInWithEmailAndPassword(auth, email, senha)
+        .catch(err => {
+          document.getElementById('erroLogin').textContent = "Erro no login: " + err.message;
+        });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      signOut(auth).then(() => {
+        document.getElementById('emailAdmin').value = '';
+        document.getElementById('senhaAdmin').value = '';
+        document.getElementById('erroLogin').textContent = '';
+        alert("Você saiu do sistema.");
+        mostrar('inicio');
+      }).catch((error) => {
+        console.error("Erro ao sair:", error);
+        alert("Erro ao sair. Tente novamente.");
+      });
+    });
+
+    onAuthStateChanged(auth, user => {
+      if (primeiraVezAbrindo) {
+        mostrar('inicio');
+        atualizarTabelaPublica();
+        primeiraVezAbrindo = false;
+        return;
+      }
+
+      if (user) {
+        if (user.email === adminEmail) {
+          mostrar('admin');
+        } else {
+          alert("Usuário não autorizado.");
+          signOut(auth);
+          mostrar('inicio');
+        }
+      } else {
+        mostrar('adminLogin');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      atualizarTabelaPublica();
+    });
+    window.resetarLista = function() {
+  if (confirm("Tem certeza que deseja resetar a lista de reservas? Essa ação não pode ser desfeita.")) {
+    // referência ao nó 'reservas' no banco
+    const reservasRef = ref(database, 'reservas');
+
+    remove(reservasRef)
+      .then(() => {
+        alert("Lista de reservas resetada com sucesso!");
+        atualizarTabelaAdmin();
+        atualizarTabelaPublica();
+      })
+      .catch((error) => {
+        console.error("Erro ao resetar lista:", error);
+        alert("Erro ao resetar a lista. Tente novamente.");
+      });
+  }
+}
+window.exportarPDF = function() {
+  get(child(ref(database), 'reservas')).then(snapshot => {
+    if (!snapshot.exists()) {
+      alert("Nenhuma reserva cadastrada.");
+      return;
+    }
+
+    const reservas = Object.values(snapshot.val());
+    ordenarReservas(reservas);
+    const selecionados = window.refeicoesDisponiveis > 0 ? reservas.slice(0, window.refeicoesDisponiveis) : [];
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    let y = 20; // posição vertical inicial
+
+    // Função para centralizar texto
+    function textoCentralizado(texto, yPos, tamanhoFonte = 16, negrito = false) {
+      if (negrito) doc.setFont(undefined, 'bold');
+      else doc.setFont(undefined, 'normal');
+      doc.setFontSize(tamanhoFonte);
+      const textWidth = doc.getTextWidth(texto);
+      const x = (pageWidth - textWidth) / 2;
+      doc.text(texto, x, yPos);
+    }
+
+    // Título principal
+    textoCentralizado("RELATÓRIO DO DIA", y, 18, true);
+    y += 12;
+
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'normal');
+
+    // Informações gerais alinhadas centralizado
+    const info1 = `Total de inscritos: ${reservas.length}`;
+    const info2 = `Refeições disponíveis: ${window.refeicoesDisponiveis}`;
+
+    textoCentralizado(info1, y);
+    y += 8;
+    textoCentralizado(info2, y);
+    y += 12;
+
+    // Subtítulo
+    textoCentralizado("Alunos que vão almoçar:", y, 14, true);
+    y += 10;
+
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+
+    if (selecionados.length === 0) {
+      textoCentralizado("Nenhum aluno selecionado.", y);
+      y += 10;
+    } else {
+      selecionados.forEach((item, i) => {
+        const linha = `${i + 1}. ${item.nome} (${item.matricula}) - [${item.prioridade}]`;
+        // Como vai ter lista, deixamos alinhado à esquerda com margem
+        const marginLeft = 15;
+        if (y > doc.internal.pageSize.getHeight() - 20) {
+          doc.addPage();
+          y = 20;
+        }
+        doc.text(linha, marginLeft, y);
+        y += 8;
+      });
+    }
+
+    doc.save('relatorio_reservas.pdf');
+
+  }).catch(err => {
+    console.error("Erro ao buscar reservas:", err);
+    alert("Erro ao gerar o PDF. Tente novamente.");
+  });
+}
+  </script>
+</body>
+</html>
